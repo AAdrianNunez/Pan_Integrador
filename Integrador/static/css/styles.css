@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: rgb(0, 0, 0);
+}
+h2{
+    color: white;
+}
+.capy-nav {
+    background-color: #3E6F8A;
+    width: 100%;
+    /* position: fixed; */
+    height: 50px;
+}
+.side-menu{
+    position: fixed;
+    background: #3E6F8A;
+    width: 150px;
+    height: 100%;
+    margin-top: 50px;
+}
+.side-menu a{
+    display: block;
+    line-height: 60px;
+    transition: 0.5s;
+}
+.side-menu a:hover{
+    background: #00a6ff;
+    padding-left: 20px;
+}
+.side-menu span{
+    font-size: 20px;
+    margin-left: 4px;
+    color: white;
+}
+.content{
+    margin-left: 150px;
+    margin-right: 0;
+    padding-top: 60px;
+}
+.side-menu ul ul{
+    display: none;
+}
+.nav-link{
+    color: white;
+}
+/* Proforma */
+
+.Cantidad, #txtTiempo{
+    width: 60px;
+}
+.Item{
+    margin-left: 0;
+    text-transform: uppercase;
+}
+.precioUnitario, .precioTotal, .sumaTotal{
+    width: 80px;
+}
+/* .Total{
+    margin-left: 903px;
+} */
+
+.form-label {
+    color: #fff;
+}
+
+
