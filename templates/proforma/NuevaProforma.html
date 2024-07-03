@@ -1,0 +1,156 @@
+{% extends "index.html" %}
+{% load static %}
+{% block tittle %} Proformas {% endblock %}
+
+{% block content %}
+{% csrf_token %}
+
+    <div class="row pb-2">
+        <div class="col-1">
+            <label class="form-label ">Empresa: </label>
+        </div>
+        <div class="col-3">
+            <select class='custom-select custom-select-sm' type='text' id='selectEmpresa' name='selectEmpresa'>
+            </select>  
+        </div>
+        <div class="col-1">
+            <button type="button" id="btnNuevo" class="btn btn-success btn-sm" title="Nueva Empresa"><i class="fa fa-plus"></i></button>
+        </div>
+        <div class="col-1">
+            <label class="form-label ">Solicitante: </label>
+        </div>
+        <div class="col-3">
+            <select class='custom-select custom-select-sm' type='text' id='selectSolicitante' name='selectSolicitante'>
+            </select>  
+        </div>
+        <div class="col-1">
+            <button type="button" id="btnNuevoSolicitante" class="btn btn-success btn-sm" title="Nuevo Solicitante"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+    <div class="row pb-2">
+        <div class="col-1">
+            <label class="form-label form-label">RUC: </label>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control form-control-sm" id="txtRuc" readonly>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1">
+            <label class="form-label ">Lugar: </label>
+        </div>
+        <div class="col-3">
+            <select class='custom-select custom-select-sm' type='text' id='selectLugar' name='selectLugar'>
+            </select>  
+        </div>
+        <div class="col-3">
+            <button type="button" id="btnLugar" class="btn btn-success btn-sm" title="Nueva Lugar"><i class="fa fa-plus"></i></button>
+        </div>
+        
+    </div>
+    <div class="row pb-2">
+        <div class="col-1">
+            <label class="form-label form-label">Dirección: </label>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control form-control-sm" id="txtDireccion" readonly>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1">
+            <label class="form-label form-label">Fecha: </label>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control form-control-sm" id="txtFecha" readonly>
+        </div>
+        
+    </div>
+    
+    <div class="row pb-2">
+        <div class="col-2 ml-auto d-flex justify-content-end">
+            <button type="button" id="btnItem" class=" btn btn-primary" title="Añadir Item"><span class="" aria-hidden="true" ></span> Añadir Item</button>
+        </div>
+    </div>
+    <div class="row">
+        <div id="divItem" class="col-lg-12">
+            <table id='tblItem' class='table table-striped table-light'>
+                <thead class='thead-dark'>
+                    <tr>
+                        <th>Cantidad</th>
+                        <th>Descripcion</th>
+                        <th>Precio Unitario</th>
+                        <th>Precio Total</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="ItemBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row pb-2">
+        <div class="col-3 ">
+            <input type="text" class="form-control form-control-sm" id="txtMaterial" placeholder="Ingrese Material">
+        </div>
+        <div class="col-1">
+            <button type="button" id="btnMaterial" class="btn btn-success btn-sm" title="Nueva Herramienta"><i class="fa fa-plus"></i></button>
+        </div>
+        <div class="col-3">
+            <input type="text" class="form-control form-control-sm" id="txtHerramienta" placeholder="Ingrese Herramienta">
+        </div>
+        <div class="col-1">
+            <button type="button" id="btnHerramienta" class="btn btn-success btn-sm" title="Nueva Herramienta"><i class="fa fa-plus"></i></button>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div id="divMaterial" class="col-sm-4">
+            <table id='tblMaterial' class='table table-striped table-light'>
+                <thead class='thead-dark'>
+                    <tr>
+                        <th>Material</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="MaterialBody">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="divHerramienta" class="col-sm-4" >
+            <table id='tblHerramienta' class='table table-striped table-light'>
+                <thead class='thead-dark'>
+                    <tr>
+                        <th>Herramienta</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="HerramientaBody">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-bg-2">
+            <label class="form-label form-label">Tiempo (dias): </label>
+        </div>
+        <div class="col-sm-2">
+            <input type="number" class="form-control form-control-sm" id="txtTiempo">
+        </div>  
+        
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <button type="button" id="btnCrear" class="btn btn-primary" title="Crear Proforma"><span class="" aria-hidden="true" ></span> Crear Proforma</button>
+        </div>
+        <div class="col-2">
+            <button type="button" id="btnDescargarProforma" class="btn btn-primary" title="Descargar Proforma" disabled><span class="" aria-hidden="true" ></span> Descargar Proforma</button>
+        </div>
+    </div>
+    <div class="modal fade" id="divModalEmpresa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+    <div class="modal fade" id="divModalItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src='{% static "js/NuevaProforma.js" %}'></script>
+{% endblock %}

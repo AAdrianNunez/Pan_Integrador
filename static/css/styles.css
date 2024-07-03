@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family:Arial, Helvetica, sans-serif;
+	background: url('../images/fondo.png') repeat white center top fixed;
+	margin:0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+h2{
+    /* color: #3E6F8A; */
+    color: white
+}
+
+
+/* .dropdown-menu-dark .dropdown-item:hover {
+    background:#FF9900;
+    color:black !important; 
+} */
+ 
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background-color: #343a40;
+    color: white;
+    height: 100%;
+    padding-top: 20px;
+    flex-shrink: 0;
+}
+.sidebar .nav-link {
+    color: white;
+}
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+.sidebar .image-container {
+    display: flex;
+    justify-content: center;
+}
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.content {
+    flex: 2;
+    padding: 20px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.navbar {
+    flex-shrink: 0;
+}
+
+.sidebar .nav-item .dropdown-item {
+    padding-left: 2rem; 
+}
+
+.sidebar .nav-item {
+    margin-bottom: 1rem;
+}
+
+/* Para cambiar el color de fondo de los submenús */
+.sidebar .nav-item .collapse {
+    background-color: #343a40;
+} 
+
+/* Para ajustar el color de fondo de los elementos del submenú */
+.sidebar .nav-item .dropdown-item {
+    background-color: #495057; 
+}
+
+/* Para cambiar el color del texto del submenú */
+.sidebar .nav-item .dropdown-item {
+    color: #ffffff; /* Ajusta según tus necesidades */
+}
+
+.form-label {
+    color: #fff;
+    
+}
+
+

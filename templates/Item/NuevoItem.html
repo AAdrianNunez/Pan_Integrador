@@ -1,0 +1,139 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Nuevo Item</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group row">
+                    <label for="txtCantidad" class="col-sm-3 col-form-label">Cantidad</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" id="txtCantidad" value=1 autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtDescripcion" class="col-sm-3 col-form-label">Descripcion</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control text-capitalize" id="txtDescripcion" placeholder="Descripcion" maxlength="300" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtPrecioUnitario" class="col-sm-3 col-form-label">Precio Unit.</label>
+                    <div class="col-sm-3">
+                        <input type="number" class="form-control" id="txtPrecioUnitario" placeholder="Precio Unitario" autocomplete="off">
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+            <button id="btnGuardar" type="button" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+        if (Entity != "") {
+            $("#myModalLabel").html("Editar Item");
+            ObtenerItem();
+        }
+    });
+
+    function ObtenerItem() {
+        let Item = globalList.filter(x => x.IDItem == Entity.IDItem)[0];
+        $("#txtCantidad").val(Item.Cantidad);
+        $("#txtDescripcion").val(Item.Descripcion);
+        $("#txtPrecioUnitario").val(Item.PrecioUnitario);
+    }
+
+    $("#btnGuardar").click(function () {
+        if ($("#txtCantidad").val().trim() == "") {
+            alert("Debe ingresar una Cantidad");
+            return false;
+        }
+        if ($("#txtDescripcion").val().trim() == "") {
+            alert("Debe ingresar la Descripcion");
+            return false;
+        }
+        if ($("#txtPrecioUnitario").val().trim() == "") {
+            alert("Debe ingresar un Precio unitario");
+            return false;
+        }
+        
+        if (Entity != "") {
+            let object = {
+                IDItem: Entity.IDItem,
+                Cantidad: $("#txtCantidad").val().trim(),
+                Descripcion: $("#txtDescripcion").val().trim(),
+                PrecioUnitario: $("#txtPrecioUnitario").val().trim(),
+            }
+            ModificarItem(object);            
+        } else {
+            let object = {
+                Cantidad: $("#txtCantidad").val().trim(),
+                Descripcion: $("#txtDescripcion").val().trim(),
+                PrecioUnitario: $("#txtPrecioUnitario").val().trim(),
+            }
+            RegistrarItem(object);
+        }
+    });
+    
+    function ModificarItem(object) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Home/ModificarItem",
+            data: JSON.stringify(object),
+            dataType: "json",
+            async: true,
+            cache: false,           
+            success: function (response) {                
+                if (response.retval > 0) {
+                    ListarItems();
+                    CerrarModalItem();
+                    alert("El Item se actualizó correctamente");
+                } else {
+                    alert("No fue posible actualizar el Item");
+                    return false;
+                }
+            },
+            error: function (xhr, textStatus, exceptionThrown) {
+                alert("ocurrio un error");
+                return false;
+            }
+        });
+    }
+    function RegistrarItem(object) {
+        let Cantidad = $("#txtCantidad").val();
+        let Descripcion = $("#txtDescripcion").val().trim();
+        let PrecioUnitario = $("#txtPrecioUnitario").val();
+        let PrecioTotal = Cantidad * PrecioUnitario;
+        
+        let html = "<tr>";
+            html += "<td>"+ Cantidad + "</td>";
+            html += "<td>"+ Descripcion + "</td>";
+            html += "<td>" + PrecioUnitario + "</td>";
+            html += "<td>" + PrecioTotal + "</td>";
+            html += "<td>";
+            html += "<button class='btn deleteButton btn-danger btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            html += "<button class='btn editbutton btn-sm btn-warning' onclick= 'Editar("+ object.IDItem +")';'><i class='fa fa-pencil'></i></button>";
+            html += "</td>";
+            html += "</tr>";
+
+        $('#ItemBody').append(html);
+
+        $('#ItemBody').on('click', '.deleteButton', function() {
+            $(this).closest('tr').remove();
+        });
+        CerrarModalItem();
+    }
+
+    function CerrarModalItem() {
+        $("#divModalItem").empty();
+        $("#divModalItem").modal("hide");
+    }    
+  </script>    

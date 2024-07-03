@@ -1,0 +1,140 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Nueva Empresa</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <form>
+              <div class="form-group row">
+                  <label for="txtNombre" class="col-sm-2 col-form-label">Nombre</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control text-capitalize" id="txtNombre" placeholder="Nombre" maxlength="128" autocomplete="off">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="txtRuc" class="col-sm-2 col-form-label">RUC</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control text-capitalize" id="txtRuc" placeholder="Ruc" maxlength="11" autocomplete="off">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="txtDireccion" class="col-sm-2 col-form-label">Direccion</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" id="txtDireccion" placeholder="Direccion" autocomplete="off">
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+          <button id="btnGuardar" type="button" class="btn btn-success">Guardar</button>
+      </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (Entity != "") {
+            $("#myModalLabel").html("Editar Empresa");
+            ObtenerEmpresa();
+        }
+    });
+
+    function ObtenerEmpresa() {
+        let Empresa = globalList.filter(x => x.IDEmpresa == Entity.IDEmpresa)[0];
+        $("#txtNombre").val(Empresa.Nombre);
+        $("#txtRuc").val(Empresa.Ruc);
+        $("#txtDireccion").val(Empresa.Direccion);
+    }
+
+    $("#btnGuardar").click(function () {
+        if ($("#txtNombre").val().trim() == "") {
+            alert("Debe ingresar un nombre");
+            return false;
+        }
+        if ($("#txtRuc").val().trim().length != 11) {
+            alert("Debe ingresar el RUC");
+            return false;
+        }
+        if ($("#txtDireccion").val().trim() == "") {
+            alert("Debe ingresar una dirección valida");
+            return false;
+        }
+        
+        if (Entity != "") {
+            let object = {
+                IDEmpresa: Entity.IDEmpresa,
+                Nombre: $("#txtNombre").val().trim(),
+                Ruc: $("#txtRuc").val().trim(),
+                Direccion: $("#txtDireccion").val().trim(),
+            }
+            ModificarEmpresa(object);            
+        } else {
+            let object = {
+                Nombre: $("#txtNombre").val().trim(),
+                Ruc: $("#txtRuc").val().trim(),
+                Direccion: $("#txtDireccion").val().trim(),
+            }
+            RegistrarEmpresa(object);
+        }
+    });
+
+    function ModificarEmpresa(object) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Home/ModificarEmpresa",
+            data: JSON.stringify(object),
+            dataType: "json",
+            async: true,
+            cache: false,           
+            success: function (response) {                
+                if (response.retval > 0) {
+                    ListarEmpresas();
+                    CerrarModalEmpresa();
+                    alert("La Empresa se actualizó correctamente");
+                } else {
+                    alert("No fue posible actualizar la Empresa");
+                    return false;
+                }
+            },
+            error: function (xhr, textStatus, exceptionThrown) {
+                alert("ocurrrio un error");
+                return false;
+            }
+        });
+    }
+
+    function RegistrarEmpresa(object) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Home/RegistrarEmpresa/",
+            data: JSON.stringify(object),
+            dataType: "json",
+            async: true,
+            cache: false,
+            success: function (response) {                
+                if (response.retval > 0) {
+                    ListarEmpresas();
+                    CerrarModalEmpresa();
+                    alert("La Empresa se registró correctamente");
+                } else {
+                    alert("No fue posible registrar la Empresa");
+                    return false;
+                }
+            },
+            error: function (xhr, textStatus, exceptionThrown) {
+                alert("ocurrio un error");
+                return false;
+            }
+        });
+    }
+
+    function CerrarModalEmpresa() {
+        $("#divModalEmpresa").empty();
+        $("#divModalEmpresa").modal("hide");
+    }    
+</script>    

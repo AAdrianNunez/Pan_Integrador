@@ -1,0 +1,90 @@
+{% extends "index.html" %}
+{% load static %}
+{% block tittle %} Editar Proforma {% endblock %}
+
+{% block content %}
+{% csrf_token %}
+    <div class="row">
+        <div class="col-5">
+            <h2>Elegir proforma</h2>
+        </div>
+        <div class="col-4">
+            <select class="custom-select custom-select-sm" type="text" id="selectProforma" name="selectProforma">
+                {% for p in proformas %}
+                <option value="{{p.IDProforma}}">{{p.Numero}} - {{p.año_creacion}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row " >
+        <div class="col-3">
+            <label class="form-label">Solicitante: </label>
+            <select class="custom-select custom-select-sm" type="text" id="selectSolicitante" name="selectSolicitante">
+                {% for s in solicitantes %}
+                <option value="{{s}}">{{s}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-3">
+            <label class="form-label">Lugar de Atencion </label>
+            <select class="custom-select custom-select-sm" type="text" id="selectLugar" name="selectLugar">
+                {% for l in lugares %}
+                <option value="{{l}}">{{l}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-3 text-right">
+            <label class="form-label" id="num_rows">N° Filas: 1</label>
+        </div>
+    </div>
+    <div class="Items" id="Items">
+        <div class="row mt-2 " >
+            <div class="col-1">
+                <label class="form-label">Cantidad</label>
+                <input class="form-control form-control-sm Cantidad" required value=1 type="number" id="txtCant1" name="txtCant1" onchange="updateTotalForRow(1)" min= 1>
+            </div>
+            <div class="col-5">
+                <label class="form-label">Descripcion</label>
+                <input class="form-control form-control-sm Item contar-caracteres" required type="text" id="txtDescripcion"  name="txtDescripcion1">
+            </div>
+            <div class="col col-md-auto">
+                <label class="form-label">Precio Unit.</label>
+                <input class="form-control form-control-sm precioUnitario" required min=1 type="number" id="txtPrecioUnitario1" onchange='updateTotalForRow(1)' name="txtPrecioUnitario1">
+            </div>
+            <div class="col col-md-auto">
+                <label class="form-label">Precio Total</label>
+                <input class="form-control form-control-sm precioTotal" disabled type="number" id="txtPrecioTotal1" name="txtPrecioTotal1">
+            </div>
+            <div class="col-2">
+                <label class="form-label">Añadir Item</label>
+                <br>
+                <button type="button" class="btn btn-success btn-sm" id="btnAdd"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnDelete"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div style="margin-left: 695px;">
+            <input class="form-control form-control-sm sumaTotal" disabled type="number" id="txtSumaTotal" name="txtSumaTotal">
+        </div>
+    </div>
+    <div class="row mt-2 ">
+        <div class="col-6 form-floating">
+            <label class="form-label">Material</label>
+            <textarea class="form-control" id="txtMaterial" rows="5" style="height: 200px"></textarea>
+        </div>
+        <div class="col-2">
+            <label class="form-label">Tiempo</label>
+            <input class="form-control form-control-sm" type="number" value=1 id="txtTiempo" name="txtTiempo" min= 1>
+        </div>
+    </div>
+    <div class="row mt-2 ml-0">
+        <button type="button" class="btn btn-dark" id="btnGenerarProforma">GENERAR PROFORMA</button>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src='{% static "js/editar_proforma.js" %}'></script>
+
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
