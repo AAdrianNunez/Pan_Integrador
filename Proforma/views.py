@@ -126,7 +126,7 @@ def CrearProforma(request):
             pdf_file_name = f"PF{numero}.pdf"
             word_file_path = os.path.join(settings.MEDIA_ROOT, word_file_name)
             pdf_file_path = os.path.join(settings.MEDIA_ROOT, pdf_file_name)
-
+            
             doc.save(word_file_path)
             convert(word_file_path, pdf_file_path)
             return JsonResponse({'filename': pdf_file_name})

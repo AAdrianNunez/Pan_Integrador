@@ -444,12 +444,7 @@ $("#btnCrear").click(function () {
         url: "/Home/CrearProforma/",
         dataType: 'json',
         data: JSON.stringify({solicitante: sol, lugar: lugar, idempresa: emp, tiempo: tiempo,items: tablaItem, material: tablaMaterial, herramienta: tablaHerramienta}),
-        before: function (){
-            Swal.fire({
-                icon: "error",
-                text: "Debe ingresar al menos 1 herramienta",
-            });
-        },
+        
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -458,9 +453,8 @@ $("#btnCrear").click(function () {
             filename = response.filename;
             
             $('#btnDescargarProforma').prop('disabled', false);
-            $('#btnDescargarProforma').data('file-url', filename);
+            $('#btnDescargarProforma').attr('onclick', "descargarProforma('/media/" + filename + "')");
 
-            
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Ocurrió un error");
@@ -468,8 +462,17 @@ $("#btnCrear").click(function () {
         }
     });
 });
-$('#btnDescargarProforma').click(function() {
-    window.location.href = '/media/' + filename;
-});
+
+
+function descargarProforma(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = url.substr(url.lastIndexOf('/') + 1);
+    document.body.appendChild(a);
+    a.click(); 
+    document.body.removeChild(a); 
+}
+
+
 // EDICION DE PROFORMAS
 
